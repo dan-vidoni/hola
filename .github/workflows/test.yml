@@ -1,0 +1,17 @@
+name: Test
+
+# Run this workflow every time a new commit pushed to your repository
+on: push
+
+jobs:
+  test:
+    name: Test Secret Vars 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - run: echo test_dvidoni
+      - run: node test.js
+      - run: echo $SECRET_VAR_DV
