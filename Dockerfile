@@ -1,7 +1,11 @@
-FROM nginx
+FROM node:12.8.0
 
-EXPOSE 80
+WORKDIR /app
 
-RUN rm package.json
+COPY . /app
 
-COPY . /usr/share/nginx/html
+RUN npm install
+
+CMD npm start
+
+EXPOSE 3000
