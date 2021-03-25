@@ -1,0 +1,55 @@
+name: Test
+
+on: push
+
+jobs:
+  test:
+    name: deploy-to-beanstalk
+    runs-on: ubuntu-latest
+
+    steps:
+      # 0. Setup node, image has v14.16.0
+      - name: Use Node.js 12.8.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.8.0
+    
+      - run: node --version
+
+      # 1. Checkout code from repo
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2. Cache node_modules to speed up runners
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      
+      # 3. Prepare deployment package
+      - name: Installing NPM
+        run: npm install
+      
+      - name: Building application
+        run: npm run build
+
+      - name: Generate deployment package
+        run: cd build && zip -r deploy.zip * -x && mv deploy.zip ..
+
+      - name: test
+        run: ls -ltra
+
+      # 4. Deploy to aws elastic beanstalk
+      # - name: Beanstalk Deploy for app
+      #   uses: einaregilsson/beanstalk-deploy@v3
+      #   with:
+      #     aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+      #     aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+      #     application_name: dvidoni
+      #     environment_name: dvidoni-env
+      #     region: eu-central-1
+      #     version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
+      #     deployment_package: deploy.zip
