@@ -21,4 +21,4 @@ jobs:
       - shell: bash
         env: # Or as an environment variable
           SECRET_VAR_DV: ${{ secrets.SECRET_VAR_DV }}
-        run: echo $SUPER_SECRET
+        run: echo "$env:SECRET_VAR_DV"
