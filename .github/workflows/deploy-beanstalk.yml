@@ -8,11 +8,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 0. Setup node, image has v14.16.0
+      # Setup node, image has v14.16.0
       - name: Use Node.js 12.8.0
         uses: actions/setup-node@v1
         with:
           node-version: 12.8.0
+
+      # Generate unique id for deployment version
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
 
       # 1. Checkout code from repo
       - name: Checkout code
@@ -31,5 +44,5 @@ jobs:
           application_name: dan-hola
           environment_name: dan-hola-dev
           region: eu-central-1
-          version_label: 12
+          version_label: "v-${{ steps.format-time.outputs.replaced }}"
           deployment_package: deploy.zip
