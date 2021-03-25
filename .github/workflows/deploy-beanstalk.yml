@@ -4,7 +4,7 @@ on: push
 
 jobs:
   deploy:
-    name: deploy-to-beanstalk
+    name: deploy-beanstalk
     runs-on: ubuntu-latest
 
     steps:
@@ -46,5 +46,5 @@ jobs:
           application_name: dan-hola
           environment_name: dan-hola-dev
           region: eu-central-1
-          version_label: 123
+          version_label: 1234
           deployment_package: deploy.zip
