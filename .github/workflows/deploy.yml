@@ -35,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Generate deployment package
-        run: cd build && zip -r deploy.zip * && mv deploy.zip ..
+        run: zip -r deploy.zip * -x "**node_modules**"
 
       # 4. Deploy to aws elastic beanstalk
       - name: Beanstalk Deploy for app
