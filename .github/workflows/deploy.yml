@@ -39,8 +39,8 @@ jobs:
       - name: Generate deployment package
         run: cd build && zip -r deploy.zip * && mv deploy.zip ..
 
-      - name: test
-        run: ls -ltra
+      - name: Test
+        run: echo here
 
       # 4. Deploy to aws elastic beanstalk
       # - name: Beanstalk Deploy for app
