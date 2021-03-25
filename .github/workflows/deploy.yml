@@ -33,6 +33,10 @@ jobs:
       
       - name: Building application
         run: npm run build
+      
+      - name: Hack for deployment
+        run: cp package.json build/
+
 
       - name: Generate deployment package
         run: cd build && zip -r deploy.zip * && mv deploy.zip ..
