@@ -33,10 +33,6 @@ jobs:
       
       - name: Building application
         run: npm run build
-      
-      - name: Hack for deployment
-        run: cp package.json build/
-
 
       - name: Generate deployment package
         run: cd build && zip -r deploy.zip * && mv deploy.zip ..
@@ -47,8 +43,8 @@ jobs:
         with:
           aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
           aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          application_name: hola
-          environment_name: hola-dev
+          application_name: dan-hola
+          environment_name: dan-hola-dev
           region: eu-central-1
-          version_label: 1
+          version_label: 123
           deployment_package: deploy.zip
