@@ -18,26 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. Cache node_modules to speed up runners
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      
-      # 3. Prepare deployment package
-      - name: Installing NPM
-        run: npm install
-      
-      - name: Building application
-        run: npm run build
-
+      # 2. Generate artifacts
       - name: Generate deployment package
         run: zip -r deploy.zip * -x "**node_modules**"
 
-      # 4. Deploy to aws elastic beanstalk
+      # 3. Deploy to aws elastic beanstalk
       - name: Beanstalk Deploy for app
         uses: einaregilsson/beanstalk-deploy@v16
         with:
@@ -46,5 +31,5 @@ jobs:
           application_name: dan-hola
           environment_name: dan-hola-dev
           region: eu-central-1
-          version_label: 1234
+          version_label: 12
           deployment_package: deploy.zip
