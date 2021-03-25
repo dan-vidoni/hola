@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
       - name: Generate deployment package
-        run: cd build && zip -r deploy.zip * -x && mv deploy.zip ..
+        run: cd build && zip -r deploy.zip * && mv deploy.zip ..
 
       - name: test
         run: ls -ltra
