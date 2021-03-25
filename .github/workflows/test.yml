@@ -5,7 +5,7 @@ on: push
 
 jobs:
   test:
-    name: Test Secret Vars 
+    name: test
     runs-on: ubuntu-latest
 
     steps:
@@ -13,5 +13,12 @@ jobs:
         uses: actions/checkout@v2
 
       - run: echo test_dvidoni
-      - run: node test.js
-      - run: echo $SECRET_VAR_DV
+      - run: node --version
+      - shell: bash
+        env: # Or as an environment variable
+          SECRET_VAR_DV: ${{ secrets.SECRET_VAR_DV }}
+        run: node test.js
+      - shell: bash
+        env: # Or as an environment variable
+          SECRET_VAR_DV: ${{ secrets.SECRET_VAR_DV }}
+        run: echo $SUPER_SECRET
