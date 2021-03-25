@@ -1,11 +1,10 @@
-FROM node:12.8.0
-
-WORKDIR /app
-
-COPY . /app
-
+FROM node:alpine as builder
+WORKDIR '/app'
+COPY ./package.json ./
 RUN npm install
+COPY . .
+RUN npm run build
 
-CMD npm start
-
-EXPOSE 3000
+FROM nginx
+EXPOSE 80
+COPY --from=builder /app/build /usr/share/nginx/html
